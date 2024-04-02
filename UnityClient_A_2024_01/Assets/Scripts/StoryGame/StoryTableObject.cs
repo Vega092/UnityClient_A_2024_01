@@ -12,7 +12,7 @@ namespace STORYGAME
         public bool storyDone;
 
         [TextArea(10, 10)]
-        public string storyText;
+        public string storyText;        
         public List<Option> options = new List<Option>();
 
         [System.Serializable]
