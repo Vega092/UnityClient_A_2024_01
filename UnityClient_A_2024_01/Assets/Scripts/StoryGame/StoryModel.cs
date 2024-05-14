@@ -6,7 +6,7 @@ using static STORYGAME.StoryTableObject;
 
 
 [CreateAssetMenu(fileName = " New Story" , menuName = "ScriptableObjects/StoryModel")]
-public class StoryModel : MonoBehaviour
+public class StoryModel : ScriptableObject
 {
     public int storyNumber;                 //스토리 번호
     public Texture2D MainImage;       //스토리 보여줄 이미지 텍스쳐
