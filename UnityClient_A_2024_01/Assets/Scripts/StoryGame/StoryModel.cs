@@ -2,7 +2,6 @@ using STORYGAME;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static STORYGAME.StoryTableObject;
 
 
 [CreateAssetMenu(fileName = " New Story" , menuName = "ScriptableObjects/StoryModel")]
@@ -40,7 +39,7 @@ public class StoryModel : ScriptableObject
         public int checkValue;
         public enum EventType : int
         {
-            NINE,
+            NONE,
             GoToBattle,
             CheckSTR,
             CheckDex,
@@ -50,7 +49,7 @@ public class StoryModel : ScriptableObject
             CheckCHA
         }
 
-        public EventCheck eventType;
+        public EventType eventType;    //
 
         public Result[] successResult;
         public Result[] failedResult;

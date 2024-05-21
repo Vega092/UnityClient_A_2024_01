@@ -7,6 +7,7 @@ using STORYGAME;
 
 
 #if UNITY_EDITOR
+[CustomEditor(typeof(GameSystem))]
 public class GameSystemEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -79,8 +80,8 @@ public class GameSystem : MonoBehaviour
     {
         StoryModel tempStoryModel = FindStoryModel(number);
 
-        // StorySystem.Instance.currentStoryModel = tempstryModels;
-        // StorySystem.Instance.GoShowText();
+        StorySystem.instance.currentStoryModel = tempStoryModel;
+        StorySystem.instance.GoShowText();
     }
     
 

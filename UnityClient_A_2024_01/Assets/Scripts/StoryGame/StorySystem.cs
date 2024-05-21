@@ -11,6 +11,7 @@ public class StorySystem : MonoBehaviour
 
     public enum TEXTSYSTEM
     {
+        NONE,
         DOING,
         SELECT,
         DONE
@@ -26,7 +27,7 @@ public class StorySystem : MonoBehaviour
     public Button[] buttonWay = new Button[3];              //선택지 버튼 추가
     public Text[] buttonWayText = new Text[3];               //선택지 버튼 Text
 
-
+    public TEXTSYSTEM currentTextShow = TEXTSYSTEM.NONE;
 
     private void Awake()
     {
@@ -42,7 +43,7 @@ public class StorySystem : MonoBehaviour
             buttonWay[i].onClick.AddListener(() => OnWayClick(wayIndex));
         }
 
-        StartCoroutine(ShowText());
+        GoShowText();
     }
 
     public  void StoryModelinit()
@@ -58,12 +59,44 @@ public class StorySystem : MonoBehaviour
 
     public void OnWayClick(int index)
     {
+        if (currentTextShow == TEXTSYSTEM.DOING)
+            return;
 
+        bool CheckEventTypeNone = false;            // 기본으로 None일때는 무조건 성공이라고 판단하고 실패시에 다시 불리는것을 피하기 위해서 bool 선언
+        StoryModel playStoryModel = currentStoryModel;
+
+        if (playStoryModel.options[index].eventCheck.eventType == StoryModel.EventCheck.EventType.NONE)
+        {
+            for(int i = 0; i < playStoryModel.options[index].eventCheck.successResult.Length; i++)
+            {
+                GameSystem.instance.ApplyChoice(currentStoryModel.options[index].eventCheck.successResult[i]);
+                CheckEventTypeNone = true;
+            }
+        }
+    }
+
+    public void GoShowText()
+    {
+        StoryModelinit();
+        ResetShow();
+        StartCoroutine(ShowText());
+    }
+
+    public void ResetShow()
+    {
+        textComponent.text = "";
+
+        for(int i = 0; i < buttonWay.Length; i++)
+        {
+            buttonWay[i].gameObject.SetActive(false);
+        }
     }
 
 
     IEnumerator ShowText()                                                            //코루틴 함수 사용
     {
+        currentTextShow = TEXTSYSTEM.DOING;
+
         if(currentStoryModel.MainImage != null)
         {
             //Texture2D를 Sprite 변환
@@ -95,6 +128,8 @@ public class StorySystem : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
 
+
+        currentTextShow = TEXTSYSTEM.NONE;
     }
 
 }
